@@ -105,7 +105,6 @@ import AVFoundation
 import Accelerate
 import CoreHaptics
 
-@available(iOS 13.0, *)
 class ECWavingHaptics {
     private var engine: CHHapticEngine?
     private var audioEngine: AVAudioEngine?
@@ -141,7 +140,25 @@ class ECWavingHaptics {
         do {
             engine = try CHHapticEngine()
             try engine?.start()
+            
+            // 添加引擎重启回调
+            engine?.stoppedHandler = { [weak self] reason in
+                print("引擎停止，原因：\(reason)")
+                self?.restartHapticEngine()
+            }
         } catch {
+            errorCallback?(error)
+        }
+    }
+    
+    private func restartHapticEngine() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        
+        do {
+            try engine?.start()
+            print("触觉引擎重新启动成功")
+        } catch {
+            print("触觉引擎重新启动失败：\(error)")
             errorCallback?(error)
         }
     }
@@ -245,6 +262,7 @@ class ECWavingHaptics {
             let player = try engine.makePlayer(with: pattern)
             try player.start(atTime: CHHapticTimeImmediate)
         } catch {
+            print("触发触觉反馈失败：\(error)")
             errorCallback?(error)
         }
     }
@@ -273,6 +291,7 @@ class ECWavingHaptics {
         
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main) { [weak self] _ in
             if self?.wasPlayingBeforeBackground == true {
+                self?.restartHapticEngine()
                 self?.startAudioProcessing()
             }
         }
