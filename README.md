@@ -103,15 +103,21 @@ deinit {
 1. Create an `ECWavingHaptics` instance:
 
     ```swift
+    guard let url = Bundle.main.url(forResource: "Sound-File-Name", withExtension: "mp3") else {
+    print("Unknown Audio File")
+    return
+    }
+    let audioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)!
+
     let haptics = ECWavingHaptics(
-        audioFileURL: URL(fileURLWithPath: "path/to/audio/file"),
-        audioFormat: AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)!,
-        minFrequency: 20,
-        maxFrequency: 20000,
+        audioFileURL: url,
+        audioFormat: audioFormat,
+        minFrequency: 150,
+        maxFrequency: 220,
         isLooping: true,
-        playCallback: { print("Playback started") },
-        stopCallback: { print("Playback stopped") },
-        errorCallback: { error in print("Error: \(error)") }
+        playCallback: { print("Start Playing") },
+        stopCallback: { print("Stopped") },
+        errorCallback: { error in print("Error：\(error)") }
     )
     ```
 
