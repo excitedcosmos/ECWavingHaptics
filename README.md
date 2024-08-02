@@ -17,7 +17,17 @@
 4. 大文件或高采样率的音频可能会影响性能
 
 ## 使用方法
+####Swift Package Manager
+    ```
+    .package(url: "https://github.com/excitedcosmos/ECWavingHaptics.git", from: "1.0.0")
 
+    ```
+    or
+        ```
+    https://github.com/excitedcosmos/ECWavingHaptics.git"
+
+    ```
+    
 1. 创建 `ECWavingHaptics` 实例：
 
     ```swift
