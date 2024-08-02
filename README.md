@@ -31,15 +31,21 @@ https://github.com/excitedcosmos/ECWavingHaptics.git
 ### 创建 `ECWavingHaptics` 实例
 
 ```swift
+guard let url = Bundle.main.url(forResource: "Sound-File-Name", withExtension: "mp3") else {
+    print("Unknown Audio File")
+    return
+}
+let audioFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)!
+
 let haptics = ECWavingHaptics(
-    audioFileURL: URL(fileURLWithPath: "path/to/audio/file"),
-    audioFormat: AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)!,
-    minFrequency: 20,
-    maxFrequency: 20000,
+    audioFileURL: url,
+    audioFormat: audioFormat,
+    minFrequency: 150,
+    maxFrequency: 220,
     isLooping: true,
-    playCallback: { print("开始播放") },
-    stopCallback: { print("停止播放") },
-    errorCallback: { error in print("错误：\(error)") }
+    playCallback: { print("Start Playing") },
+    stopCallback: { print("Stopped") },
+    errorCallback: { error in print("Error：\(error)") }
 )
 ```
 
