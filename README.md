@@ -17,62 +17,62 @@
 4. 大文件或高采样率的音频可能会影响性能
 
 ## 使用方法
-####Swift Package Manager
-    ```
-    .package(url: "https://github.com/excitedcosmos/ECWavingHaptics.git", from: "1.0.0")
 
-    ```
-    or
-        ```
-    https://github.com/excitedcosmos/ECWavingHaptics.git"
+### Swift Package Manager
 
-    ```
-    
-1. 创建 `ECWavingHaptics` 实例：
+```swift
+.package(url: "https://github.com/excitedcosmos/ECWavingHaptics.git", from: "1.0.0")
+```
+或者
+```swift
+https://github.com/excitedcosmos/ECWavingHaptics.git
+```
 
-    ```swift
-    let haptics = ECWavingHaptics(
-        audioFileURL: URL(fileURLWithPath: "path/to/audio/file"),
-        audioFormat: AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)!,
-        minFrequency: 20,
-        maxFrequency: 20000,
-        isLooping: true,
-        playCallback: { print("开始播放") },
-        stopCallback: { print("停止播放") },
-        errorCallback: { error in print("错误：\(error)") }
-    )
-    ```
+### 创建 `ECWavingHaptics` 实例
 
-    **参数说明**：
-    
-    - `audioFileURL`: 音频文件的 URL
-    - `audioFormat`: 音频格式，包括采样率和通道数
-    - `minFrequency`: 最小频率，单位为 Hz
-    - `maxFrequency`: 最大频率，单位为 Hz
-    - `isLooping`: 是否循环播放
-    - `playCallback`: 开始播放时的回调函数
-    - `stopCallback`: 停止播放时的回调函数
-    - `errorCallback`: 发生错误时的回调函数
+```swift
+let haptics = ECWavingHaptics(
+    audioFileURL: URL(fileURLWithPath: "path/to/audio/file"),
+    audioFormat: AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 2)!,
+    minFrequency: 20,
+    maxFrequency: 20000,
+    isLooping: true,
+    playCallback: { print("开始播放") },
+    stopCallback: { print("停止播放") },
+    errorCallback: { error in print("错误：\(error)") }
+)
+```
 
-2. 开始音频处理和触觉反馈：
+**参数说明**：
 
-    ```swift
-    haptics.startAudioProcessing()
-    ```
+- `audioFileURL`: 音频文件的 URL
+- `audioFormat`: 音频格式，包括采样率和通道数
+- `minFrequency`: 最小频率，单位为 Hz
+- `maxFrequency`: 最大频率，单位为 Hz
+- `isLooping`: 是否循环播放
+- `playCallback`: 开始播放时的回调函数
+- `stopCallback`: 停止播放时的回调函数
+- `errorCallback`: 发生错误时的回调函数
 
-3. 停止音频处理和触觉反馈：
+### 开始音频处理和触觉反馈
 
-    ```swift
+```swift
+haptics.startAudioProcessing()
+```
+
+### 停止音频处理和触觉反馈
+
+```swift
+haptics.stopAudioProcessing()
+```
+
+### 在适当的时机释放资源
+
+```swift
+deinit {
     haptics.stopAudioProcessing()
-    ```
-
-4. 在适当的时机释放资源：
-
-    ```swift
-    deinit {
-        haptics.stopAudioProcessing()
-    }
-    ```
+}
+```
 
 ## ECWavingHaptics Class
 
